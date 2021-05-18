@@ -3,6 +3,7 @@ package com.notes.gui;
 import com.notes.Note;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 public class NoteGui {
 
     private Color noteColor = new Color(254, 255, 156);
+    private Color menubarColor = new Color(255,247,64);
     private static ArrayList<NoteGui> noteList = new ArrayList<NoteGui>();
     private JPanel notePanel = new JPanel();
     private JFrame noteFrame = new JFrame();
@@ -42,44 +44,47 @@ public class NoteGui {
 
     public void initMenuBar() {
         JPanel panelMenuBar = new JPanel();
-        panelMenuBar.setBackground(new Color(255,247,64));
+        panelMenuBar.setBackground(menubarColor);
         panelMenuBar.setLayout(new BoxLayout(panelMenuBar, BoxLayout.LINE_AXIS));
+        panelMenuBar.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
 
         //Buttons
-        JButton btnFat = new JButton("F");
+        JButton btnFat = newButton("F");
         JButton btnUnderline = new JButton("U");
         JComboBox<String> cbSize = new JComboBox<String>();
         cbSize.addItem("12");
         cbSize.addItem("13");
 
-        JButton btnSave = new JButton("S");
-        btnSave.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                initiateNote(noteList);
-            }
-        });
-
         JButton btnDelete = new JButton("D");
+        JButton btnMore = newButton("...");
 
+        btnFat.setBackground(noteColor);
+        btnUnderline.setBackground(noteColor);
+        cbSize.setBackground(noteColor);
+        btnDelete.setBackground(noteColor);
         panelMenuBar.add(btnFat);
         panelMenuBar.add(btnUnderline);
         panelMenuBar.add(cbSize);
-        panelMenuBar.add(btnSave);
         panelMenuBar.add(btnDelete);
-
+        panelMenuBar.add(btnMore);
         notePanel.add(panelMenuBar, BorderLayout.NORTH);
     }
 
-    private void initiateNote(ArrayList<NoteGui> nlist) {
-        for(NoteGui n : nlist) {
-            Note note = new Note(taNote.getText(), noteColor);
-        }
+
+
+    public Color getNoteColor() {
+
+        return this.noteColor;
     }
 
-    public Color randomizeColor() {
+    public String getDescription() {
+        return taNote.getText();
+    }
 
-        return null;
+    public JButton newButton(String name) {
+        JButton b = new JButton(name);
+        b.setBackground(noteColor);
+        return b;
     }
 
     public void disposeNote() {

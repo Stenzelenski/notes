@@ -1,5 +1,6 @@
 package com.notes.gui;
 
+import com.notes.Note;
 import com.notes.gui.NoteGui;
 
 import javax.swing.*;
@@ -24,8 +25,6 @@ public class StartGui extends JFrame {
         JPanel panelMain = new JPanel();
         panelMain.setBackground(Color.darkGray);
         panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.LINE_AXIS));
-        panelMain.setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 10));
-
 
         JPanel panelSettings = new JPanel();
         panelSettings.setBackground(Color.green);
@@ -36,6 +35,7 @@ public class StartGui extends JFrame {
 
         panelMain.add(initPanelAddNode());
         panelMain.add(initPanelDisposeNote());
+        panelMain.add(initPanelSave());
         panelMain.add(initPanelSettings());
         frameMain.add(panelMain);
         frameMain.setVisible(true);
@@ -44,7 +44,7 @@ public class StartGui extends JFrame {
     public JPanel initPanelAddNode() {
         JPanel panelAddNode = new JPanel();
         panelAddNode.setBackground(Color.darkGray);
-        JButton btnAddNode = new JButton("New gui.Note");
+        JButton btnAddNode = new JButton("New Note");
         btnAddNode.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -86,6 +86,23 @@ public class StartGui extends JFrame {
 
         panelDisposeNote.add(btnDisposeNote);
         return panelDisposeNote;
+    }
+
+    public JPanel initPanelSave() {
+        JPanel panelSave = new JPanel();
+        panelSave.setBackground(Color.darkGray);
+        JButton btnSave = new JButton("Save");
+        btnSave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(NoteGui n : NoteGui.getNoteList()) {
+                    Note note = new Note(n.getDescription(), n.getNoteColor());
+                }
+            }
+        });
+
+        panelSave.add(btnSave);
+        return panelSave;
     }
 
     public JPanel initPanelSettings() {

@@ -7,7 +7,7 @@ public class Note {
     private String nid = "Note";
     private String description;
     private Color color;
-    private int number = 1;
+    private static int number = 1;
 
     public Note(String description, Color color) {
         this.nid = nid + number;
