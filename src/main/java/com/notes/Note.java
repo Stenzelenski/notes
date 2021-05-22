@@ -1,29 +1,29 @@
 package com.notes;
 
+import com.notes.database.DBController;
+
 import java.awt.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Note {
 
-    private String nid = "Note";
+    private int nid;
     private String description;
     private Color color;
+    private static ArrayList<Note> noteArrayList = new ArrayList<Note>();
     private static int number = 1;
 
     public Note(String description, Color color) {
-        this.nid = nid + number;
         this.description = description;
         this.color = color;
         number++;
 
-        System.out.println(this.nid + this.description );
+        noteArrayList.add(this);
     }
 
-    public String getNid() {
+    public int getNid() {
         return nid;
-    }
-
-    public void setNid(String nid) {
-        this.nid = nid;
     }
 
     public String getDescription() {
@@ -40,5 +40,16 @@ public class Note {
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public ArrayList<Note> getNoteArrayList() {
+        return this.noteArrayList;
+    }
+
+    public static void saveNoteArrayList() throws SQLException {
+        for(Note n : noteArrayList) {
+            DBController dbc = new DBController();
+            dbc.writeIntoDb(n.getDescription(), n.getColor());
+        }
     }
 }

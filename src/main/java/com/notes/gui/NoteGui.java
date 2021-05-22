@@ -23,6 +23,12 @@ public class NoteGui {
         noteList.add(this);
     }
 
+    public NoteGui(String description, int colorRGB) {
+        openNoteGui();
+        taNote.setText(description);
+        noteFrame.setBackground(new Color(colorRGB));
+    }
+
     public void openNoteGui() {
         noteFrame.setSize(new Dimension(300, 300));
         noteFrame.setResizable(false);

@@ -1,18 +1,21 @@
 package com.notes.gui;
 
 import com.notes.Note;
+import com.notes.database.DBController;
 import com.notes.gui.NoteGui;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class StartGui extends JFrame {
 
     JFrame frameMain = new JFrame("Stenzels Notes");
     boolean disposed = false;
+    DBController dbc = new DBController();
 
     public StartGui() {
         openGui();
@@ -26,11 +29,12 @@ public class StartGui extends JFrame {
         panelMain.setBackground(Color.darkGray);
         panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.LINE_AXIS));
 
-        JPanel panelSettings = new JPanel();
-        panelSettings.setBackground(Color.green);
-
-        JPanel panelTest2 = new JPanel();
-        panelTest2.setBackground(Color.red);
+        //load note-objects
+        try {
+            dbc.loadDb();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
 
         panelMain.add(initPanelAddNode());
@@ -39,6 +43,8 @@ public class StartGui extends JFrame {
         panelMain.add(initPanelSettings());
         frameMain.add(panelMain);
         frameMain.setVisible(true);
+
+
     }
 
     public JPanel initPanelAddNode() {
@@ -97,6 +103,11 @@ public class StartGui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 for(NoteGui n : NoteGui.getNoteList()) {
                     Note note = new Note(n.getDescription(), n.getNoteColor());
+                }
+                try {
+                    Note.saveNoteArrayList();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
                 }
             }
         });
