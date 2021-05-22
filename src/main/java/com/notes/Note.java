@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Note {
 
-    private int nid;
+    DBController dbc = new DBController();
     private String description;
     private Color color;
     private static ArrayList<Note> noteArrayList = new ArrayList<Note>();
@@ -20,10 +20,6 @@ public class Note {
         number++;
 
         noteArrayList.add(this);
-    }
-
-    public int getNid() {
-        return nid;
     }
 
     public String getDescription() {
@@ -44,6 +40,24 @@ public class Note {
 
     public ArrayList<Note> getNoteArrayList() {
         return this.noteArrayList;
+    }
+
+    /**
+     * the database can't save Strings with multiple lines
+     * @param s
+     * @return String with removed Linebreaks for the database
+     */
+
+    private String removeLinebreaks(String s) {
+        String newString = s.replace("\n", "$");
+
+        return newString;
+    }
+
+    public String addLinebreaks(String s) {
+        String newString = s.replace("$", "\n");
+
+        return newString;
     }
 
     public static void saveNoteArrayList() throws SQLException {

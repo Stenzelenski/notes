@@ -35,8 +35,8 @@ public class DBController {
             statement = con.createStatement();
             resultSet = statement.executeQuery("SELECT * from Note;");
             while(resultSet.next()) {
-                Note n = new Note(resultSet.getString("Description"), new Color(resultSet.getInt("Color")));
-                NoteGui nn = new NoteGui(resultSet.getString("Description"),resultSet.getInt("Color"));
+                Note n = new Note(addLinebreaks(resultSet.getString("Description")), new Color(resultSet.getInt("Color")));
+                NoteGui nn = new NoteGui(addLinebreaks(resultSet.getString("Description")),resultSet.getInt("Color"));
             }
             System.out.println("loading from db successful");
         } catch(Exception e) {
@@ -49,12 +49,24 @@ public class DBController {
         Connection con = openDb();
         try {
             statement = con.createStatement();
-            statement.executeQuery("INSERT INTO Note(Description, Color) " + "VALUES ('"+description+"', '"+color.getRGB()+"')");
+            statement.executeQuery("INSERT INTO Note(Description, Color) " + "VALUES ('"+removeLinebreaks(description)+"', '"+color.getRGB()+"')");
             System.out.println("insert into DB successful");
         } catch (Exception e) {
             System.out.println("insert into DB failed");
             e.printStackTrace();
         }
         con.close();
+    }
+
+    private String removeLinebreaks(String s) {
+        String newString = s.replace("\n", "$");
+
+        return newString;
+    }
+
+    public String addLinebreaks(String s) {
+        String newString = s.replace("$", "\n");
+
+        return newString;
     }
 }
